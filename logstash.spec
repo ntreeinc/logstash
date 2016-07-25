@@ -54,6 +54,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 /opt/logstash
+/etc/defaults/logstash
+/etc/init.d/logstash
 
 %doc
 
