@@ -23,9 +23,10 @@ $(processed_spec): rpmdirs $(raw_spec)
 	#perl -pe "s/^Version:.*/Version: $(VERSION)/" "$(raw_spec)" > "$(processed_spec)"
 	cp $(raw_spec) $(processed_spec)
 	cp ${raw_patch} ${RPM_BASE}/SOURCES/
-	cp ${raw_source} ${RPM_BASE}/SOURCES/
+	#cp ${raw_source} ${RPM_BASE}/SOURCES/
 
 rpm: rpmdirs $(processed_spec)
+	spectool --define "_topdir ${PWD}/build/rpm" -C 'build/rpm/SOURCES' -g logstash.spec 
 	rpmbuild --define "_topdir ${PWD}/build/rpm"  -bb "$(processed_spec)"
 
 install:
