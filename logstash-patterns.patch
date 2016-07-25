@@ -1,0 +1,21 @@
+diff -ru opt/logstash/vendor/bundle/jruby/1.9/gems/logstash-patterns-core-2.0.5/patterns/grok-patterns opt_new/logstash/vendor/bundle/jruby/1.9/gems/logstash-patterns-core-2.0.5/patterns/grok-patterns
+--- opt/logstash/vendor/bundle/jruby/1.9/gems/logstash-patterns-core-2.0.5/patterns/grok-patterns	2016-07-06 19:59:57.000000000 -0400
++++ opt_new/logstash/vendor/bundle/jruby/1.9/gems/logstash-patterns-core-2.0.5/patterns/grok-patterns	2016-07-22 12:35:40.946557843 -0400
+@@ -98,4 +98,4 @@
+ 
+ 
+ # Log Levels
+-LOGLEVEL ([Aa]lert|ALERT|[Tt]race|TRACE|[Dd]ebug|DEBUG|[Nn]otice|NOTICE|[Ii]nfo|INFO|[Ww]arn?(?:ing)?|WARN?(?:ING)?|[Ee]rr?(?:or)?|ERR?(?:OR)?|[Cc]rit?(?:ical)?|CRIT?(?:ICAL)?|[Ff]atal|FATAL|[Ss]evere|SEVERE|EMERG(?:ENCY)?|[Ee]merg(?:ency)?)
++LOGLEVEL ([Aa]lert|ALERT|[Tt]race|TRACE|[Dd]ebug|DEBUG|[Nn]otice|NOTICE|[Ii]nfo|INFO|FINE|FINER|FINEST|[Ww]arn?(?:ing)?|WARN?(?:ING)?|[Ee]rr?(?:or)?|ERR?(?:OR)?|[Cc]rit?(?:ical)?|CRIT?(?:ICAL)?|[Ff]atal|FATAL|[Ss]evere|SEVERE|EMERG(?:ENCY)?|[Ee]merg(?:ency)?)
+diff -ru opt/logstash/vendor/bundle/jruby/1.9/gems/logstash-patterns-core-2.0.5/patterns/java opt_new/logstash/vendor/bundle/jruby/1.9/gems/logstash-patterns-core-2.0.5/patterns/java
+--- opt/logstash/vendor/bundle/jruby/1.9/gems/logstash-patterns-core-2.0.5/patterns/java	2016-07-06 19:59:57.000000000 -0400
++++ opt_new/logstash/vendor/bundle/jruby/1.9/gems/logstash-patterns-core-2.0.5/patterns/java	2016-07-22 12:35:40.947557826 -0400
+@@ -7,7 +7,7 @@
+ JAVASTACKTRACEPART %{SPACE}at %{JAVACLASS:class}\.%{JAVAMETHOD:method}\(%{JAVAFILE:file}(?::%{NUMBER:line})?\)
+ # Java Logs
+ JAVATHREAD (?:[A-Z]{2}-Processor[\d]+)
+-JAVACLASS (?:[a-zA-Z0-9-]+\.)+[A-Za-z0-9$]+
++JAVACLASS (?:[a-zA-Z0-9-]+\.)+[A-Za-z0-9$]+|null|
+ JAVAFILE (?:[A-Za-z0-9_.-]+)
+ JAVASTACKTRACEPART at %{JAVACLASS:class}\.%{WORD:method}\(%{JAVAFILE:file}:%{NUMBER:line}\)
+ JAVALOGMESSAGE (.*)
