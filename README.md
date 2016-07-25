@@ -8,3 +8,4 @@ Simple fork of ELK logstash in rpm package
 - Add some patches
 - apply patches during prep phase of spec file
 - test install on gf93
+- Success == an rpm with /opt/logstash/* and the init scripts
