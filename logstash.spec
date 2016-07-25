@@ -1,8 +1,8 @@
 # Inspired by https://github.com/russellsimpkins/varnish-mmdb-vmod/blob/master/libmaxminddb.spec
 # https://www.redhat.com/archives/rpm-list/2001-December/msg00200.html
-%define checkoutName %{name}-%{version}-%{_build_arch}-%{suffix: %{dist}}
+#%define checkoutName %{name}-%{version}-%{_build_arch}-%{suffix: %{dist}}
+%define checkoutName %{name}-%{version}
 %define localsource %{_topdir}/../..
-#%define version 2.3.4
 
 Name:           logstash
 Version:        2.3.4
@@ -23,9 +23,10 @@ AutoReqProv: no
 First rpm spec file
 
 %prep
-%setup -q -n %{name}-%{version}
-mkdir -p opt/logstash
-cp -r * opt/logstash
+%setup -q -c -n %{name}-%{version}
+mv %{name}-%{version} %{name}
+mkdir -p opt
+mv %{name} opt
 #rm -rf $RPM_BUILD_DIR/logstash
 #zcat $RPM_SOURCE_DIR/%{name}-%{logstashversion}.tar.gz | tar -xvf -
 #mv %{name}-%{logstashversion} %{name}
@@ -40,12 +41,12 @@ echo hello build $PWD
 
 
 %install
-#rm -rf $RPM_BUILD_ROOT
-#src="%{localsource}"
-#cd "${src}"
-#%patch
-#make install DESTDIR="%{buildroot}"
-#cd $RPM_BUILD_ROOT 
+echo $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
+src="%{localsource}"
+cd "${src}"
+make install DESTDIR="%{buildroot}"
+cd $RPM_BUILD_ROOT 
 
 %clean
 rm -rf $RPM_BUILD_ROOT

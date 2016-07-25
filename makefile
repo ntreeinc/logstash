@@ -20,16 +20,17 @@ rpmdirs:
 	mkdir -p "${RPM_BASE}/SOURCES" "${RPM_BASE}/BUILD" "${RPM_BASE}/BUILDROOT" "${RPM_BASE}/RPMS/noarch" "${RPM_BASE}/SPECS"
 
 $(processed_spec): rpmdirs $(raw_spec)
-	perl -pe "s/^Version:.*/Version: $(VERSION)/" "$(raw_spec)" > "$(processed_spec)"
+	#perl -pe "s/^Version:.*/Version: $(VERSION)/" "$(raw_spec)" > "$(processed_spec)"
+	cp $(raw_spec) $(processed_spec)
 	cp ${raw_patch} ${RPM_BASE}/SOURCES/
 	cp ${raw_source} ${RPM_BASE}/SOURCES/
 
 rpm: rpmdirs $(processed_spec)
 	rpmbuild --define "_topdir ${PWD}/build/rpm"  -bb "$(processed_spec)"
 
-#install:
-#	mkdir -p '$(DESTDIR)'
-#	cp -r src/* '$(DESTDIR)/'
+install:
+	mkdir -p '$(DESTDIR)'
+	cp -r build/rpm/BUILD/${source_name}/* '$(DESTDIR)/'
 
 publish-rpm: rpm
 	scripts/nexus-publish $(VERSION) "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)'
