@@ -39,7 +39,3 @@
 # not exited within a reasonable time, SIGKILL will be sent next.
 # The default behavior is to simply log a message "program stop failed; still running"
 #KILL_ON_STOP_TIMEOUT=0
-sysconfig_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-[ -r "${sysconfig_dir}"/salestree ] && source "${sysconfig_dir}"/salestree
-#exporting all the variables from the salestree file so that logstash can see them
-export $(cut -d= -f1 "${sysconfig_dir}"/salestree)
