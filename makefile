@@ -31,6 +31,7 @@ rpm: rpmdirs $(processed_spec)
 install:
 	mkdir -p '$(DESTDIR)'
 	cp -r build/rpm/BUILD/${source_name}/* '$(DESTDIR)/'
+	cp -r src/* '$(DESTDIR)/'
 
 publish-rpm: rpm
 	scripts/nexus-publish $(VERSION) "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)'
