@@ -1,0 +1,19 @@
+
+currentVersion=$(git describe)
+#currentVersion="0.1.2"
+if [ -z "${currentVersion}" ]; then
+  major=0
+  minor=0
+  patch=0
+else
+  major=$(echo $currentVersion | cut -d'.' -f 1)
+  minor=$(echo $currentVersion | cut -d'.' -f 2)
+  patch=$(echo $currentVersion | cut -d'.' -f 3 | cut -d'-' -f 1)
+fi
+
+newpatch=$(expr $patch + 1)
+newVersion="$major.$minor.$newpatch"
+echo "next version $newVersion"
+
+git tag -m "new release candidate $newversion" -a $newVersion
+git push --tags

@@ -1,0 +1,35 @@
+version="$1"
+rpm_file="$2"
+base_name="$3"
+
+if [ -z "$rpm_file" -o -z "$version" ]; then
+   echo Usage: $0 rpm_file version
+   exit 1;
+fi
+
+mvn_version=$(echo $version | perl -pe 's/(.*)\+g.*\..*/\1-SNAPSHOT/')
+snapshot_version=$(echo $mvn_version | perl -pe 'if (!m/SNAPSHOT/) { s/$/-SNAPSHOT/; }')
+
+# always publish a snapshot, even if this is a release so dev stays in sync
+
+mvn deploy:deploy-file \
+  -DrepositoryId=ntree-snapshots \
+  -Durl=http://mgr200.ntree.com:8081/content/repositories/snapshots \
+  -DgroupId=com.ntree \
+  -DartifactId=${base_name} \
+  -Dpackaging=rpm \
+  -Dfile="$rpm_file" \
+  -Dversion="$snapshot_version"
+
+
+if [ "$mvn_version" != "$snapshot_version" ];  then
+   release_version="$mvn_version"
+ mvn deploy:deploy-file \
+  -DrepositoryId=ntree-releases \
+  -Durl=http://mgr200.ntree.com:8081/content/repositories/releases \
+  -DgroupId=com.ntree \
+  -DartifactId=salestree-mainenance \
+  -Dpackaging=rpm \
+  -Dfile="$rpm_file" \
+  -Dversion="$release_version"
+fi
