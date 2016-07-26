@@ -8,10 +8,10 @@ raw_spec=$(package_name).spec
 processed_spec=$(RPM_BASE)/SPECS/$(package_name).spec
 
 raw_patch=${patch_name}.patch
-
 raw_source=${source_name}.tar.gz
 
-VERSION=$(shell grep Version: logstash.spec | sed -r s/^Version:\ +//g)
+VERSION=$(shell grep ^Version: logstash.spec | sed -r s/^Version:\ +//g)
+RELEASE=$(shell grep ^Release: logstash.spec | sed -r s/^Release:\ +//g)
 
 source_name_version="${source_name}-${VERSION}"
 
