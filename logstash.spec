@@ -6,7 +6,8 @@
 
 Name:           logstash
 Version:        2.3.4
-Release:        1%{?dist}
+#Release:        1%{?dist}
+Release:        1
 Summary:        Salestree Webserver Config
 Group:          Applications/Communications
 License:        MIT
