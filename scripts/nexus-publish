@@ -12,6 +12,8 @@ snapshot_version=$(echo $mvn_version | perl -pe 'if (!m/SNAPSHOT/) { s/$/-SNAPSH
 
 # always publish a snapshot, even if this is a release so dev stays in sync
 
+PATH=/usr/local/maven/apache-maven-3.2.3/bin:$PATH
+
 mvn deploy:deploy-file \
   -DrepositoryId=ntree-snapshots \
   -Durl=http://mgr200.ntree.com:8081/content/repositories/snapshots \
