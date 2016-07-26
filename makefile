@@ -15,10 +15,13 @@ RELEASE=$(shell grep ^Release: logstash.spec | sed -r s/^Release:\ +//g)
 
 source_name_version="${source_name}-${VERSION}"
 
+test:
+	scripts/nexus-publish "$(VERSION)" "$(RELEASE)" "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)'
+
 clean:
 	rm -rf "$(RPM_BASE)"
 
-rpmdirs:
+rpmdirs: clean
 	mkdir -p "${RPM_BASE}/SOURCES" "${RPM_BASE}/BUILD" "${RPM_BASE}/BUILDROOT" "${RPM_BASE}/RPMS/noarch" "${RPM_BASE}/SPECS"
 
 $(processed_spec): rpmdirs $(raw_spec)

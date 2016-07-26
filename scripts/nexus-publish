@@ -9,6 +9,7 @@ if [ -z "$rpm_file" -o -z "$version" ]; then
 fi
 
 mvn_version=$(echo $version | perl -pe 's/(.*)\+g.*\..*/\1-SNAPSHOT/')
+mvn_version="${mvn_version}-${release}"
 snapshot_version=$(echo $mvn_version | perl -pe 'if (!m/SNAPSHOT/) { s/$/-SNAPSHOT/; }')
 
 # always publish a snapshot, even if this is a release so dev stays in sync
@@ -20,6 +21,7 @@ echo "#---------- Variables ----------#"
 echo "mvn_version:		${mvn_version}"
 echo "snapshot_version:	${snapshot_version}"
 echo "release:		${release}"
+echo "base_name:		${base_name}"
 echo "#-------------------------------#"
 echo ""
 
