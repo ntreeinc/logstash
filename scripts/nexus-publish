@@ -1,9 +1,10 @@
 version="$1"
-rpm_file="$2"
-base_name="$3"
+release="$2"
+rpm_file="$3"
+base_name="$4"
 
 if [ -z "$rpm_file" -o -z "$version" ]; then
-   echo Usage: $0 rpm_file version
+   echo Usage: $0 version release rpm_file base_name
    exit 1;
 fi
 
@@ -14,7 +15,15 @@ snapshot_version=$(echo $mvn_version | perl -pe 'if (!m/SNAPSHOT/) { s/$/-SNAPSH
 
 PATH=/usr/local/maven/apache-maven-3.2.3/bin:$PATH
 
-mvn deploy:deploy-file \
+echo ""
+echo "#---------- Variables ----------#"
+echo "mvn_version:		${mvn_version}"
+echo "snapshot_version:	${snapshot_version}"
+echo "release:		${release}"
+echo "#-------------------------------#"
+echo ""
+
+mvn -e -X deploy:deploy-file \
   -DrepositoryId=ntree-snapshots \
   -Durl=http://mgr200.ntree.com:8081/content/repositories/snapshots \
   -DgroupId=com.ntree \
@@ -25,8 +34,9 @@ mvn deploy:deploy-file \
 
 
 if [ "$mvn_version" != "$snapshot_version" ];  then
-   release_version="$mvn_version"
- mvn deploy:deploy-file \
+  echo "running the if statement" 
+  release_version="$mvn_version"
+  mvn -e -X deploy:deploy-file \
   -DrepositoryId=ntree-releases \
   -Durl=http://mgr200.ntree.com:8081/content/repositories/releases \
   -DgroupId=com.ntree \

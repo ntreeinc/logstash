@@ -37,7 +37,7 @@ install:
 	cp -r src/* '$(DESTDIR)/'
 
 publish-rpm: rpm
-	scripts/nexus-publish $(VERSION) "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)'
+	scripts/nexus-publish "$(VERSION)" "$(RELEASE)" "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)'
 
 #bump-and-tag:
 #	scripts/bump-and-tag
