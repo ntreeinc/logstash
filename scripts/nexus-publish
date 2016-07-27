@@ -2,23 +2,24 @@ version="$1"
 release="$2"
 rpm_file="$3"
 base_name="$4"
+is_release="$5"
 
-if [ -z "$rpm_file" -o -z "$version" ]; then
-   echo Usage: $0 version release rpm_file base_name
+if [ -z "${rpm_file}" -o -z "${release}" -o -z "${version}" -o -z "${base_name}" ]; then
+   echo Usage: $0 version release rpm_file base_name is_release
    exit 1;
 fi
 
 #mvn_version=$(echo $version | perl -pe 's/(.*)\+g.*\..*/\1-SNAPSHOT/')
 #snapshot_version=$(echo $mvn_version | perl -pe 'if (!m/SNAPSHOT/) { s/$/-SNAPSHOT/; }')
 
-if [ -z ${release} ]; then
-   #if ${release} is an empty string then this is a release
-   mvn_version=${version}
-   snapshot_version=${mvn_version}-SNAPSHOT
+if [ "true" == "${is_release}" ]; then
+   #if ${is_release} is "true" then this is a release
+   mvn_version="${version}-${release}"
+   snapshot_version="${mvn_version}-SNAPSHOT"
 else
-   #if ${release} is non-empty then this is snapshot
-   mvn_version=${version}-${release}-SNAPSHOT
-   snapshot_version=${mvn_version}
+   #if "${is_release}" is "false" then this is snapshot
+   mvn_version="${version}-${release}-SNAPSHOT"
+   snapshot_version="${mvn_version}"
 fi
 
 # always publish a snapshot, even if this is a release so dev stays in sync
@@ -31,8 +32,11 @@ echo "mvn_version:		${mvn_version}"
 echo "snapshot_version:	${snapshot_version}"
 echo "release:		${release}"
 echo "base_name:		${base_name}"
+echo "is_release:		${is_release}"
 echo "#-------------------------------#"
 echo ""
+
+echo "Publishing the snapshot..."
 
 mvn -e -X deploy:deploy-file \
   -DrepositoryId=ntree-snapshots \
@@ -45,13 +49,14 @@ mvn -e -X deploy:deploy-file \
 
 
 if [ "$mvn_version" != "$snapshot_version" ];  then
-  echo "running the if statement" 
+  echo ""
+  echo "Publishing the release..." 
   release_version="$mvn_version"
   mvn -e -X deploy:deploy-file \
   -DrepositoryId=ntree-releases \
   -Durl=http://mgr200.ntree.com:8081/content/repositories/releases \
   -DgroupId=com.ntree \
-  -DartifactId=logstash \
+  -DartifactId=${base_name} \
   -Dpackaging=rpm \
   -Dfile="$rpm_file" \
   -Dversion="$release_version"
