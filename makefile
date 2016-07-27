@@ -40,10 +40,10 @@ install:
 	cp -r src/* '$(DESTDIR)/'
 
 publish-snapshot: rpm
-	scripts/nexus-publish "$(VERSION)" "$(RELEASE)" "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)'
+	scripts/nexus-publish "$(VERSION)" "$(RELEASE)" "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)' false
 
 publish-release: rpm
-	scripts/nexus-publish "$(VERSION)" "" "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)'
+	scripts/nexus-publish "$(VERSION)" "${RELEASE}" "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)' true
 
 #bump-and-tag:
 #	scripts/bump-and-tag
