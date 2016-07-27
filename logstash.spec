@@ -9,7 +9,7 @@ Name:           logstash
 Version:        2.3.4
 #If you wish to publish a new snapshot to nexus you MUST up the release number
 #Release:        1%{?dist}
-Release:        1
+Release:        2
 Summary:        Salestree Webserver Config
 Group:          Applications/Communications
 License:        MIT

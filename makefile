@@ -16,7 +16,8 @@ RELEASE=$(shell grep ^Release: logstash.spec | sed -r s/^Release:\ +//g)
 source_name_version="${source_name}-${VERSION}"
 
 test:
-	scripts/nexus-publish "$(VERSION)" "$(RELEASE)" "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)'
+	echo ${PWD}
+	echo ${RPM_BASE}
 
 clean:
 	rm -rf "$(RPM_BASE)"
@@ -39,10 +40,10 @@ install:
 	cp -r build/rpm/BUILD/${source_name_version}/* '$(DESTDIR)/'
 	cp -r src/* '$(DESTDIR)/'
 
-publish-snapshot: rpm
+publish-snapshot: clean rpm
 	scripts/nexus-publish "$(VERSION)" "$(RELEASE)" "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)' false
 
-publish-release: rpm
+publish-release: clean rpm
 	scripts/nexus-publish "$(VERSION)" "${RELEASE}" "$(RPM_BASE)/RPMS/noarch/"*rpm '$(package_name)' true
 
 #bump-and-tag:
