@@ -8,9 +8,18 @@ if [ -z "$rpm_file" -o -z "$version" ]; then
    exit 1;
 fi
 
-mvn_version=$(echo $version | perl -pe 's/(.*)\+g.*\..*/\1-SNAPSHOT/')
-mvn_version="${mvn_version}-${release}"
-snapshot_version=$(echo $mvn_version | perl -pe 'if (!m/SNAPSHOT/) { s/$/-SNAPSHOT/; }')
+#mvn_version=$(echo $version | perl -pe 's/(.*)\+g.*\..*/\1-SNAPSHOT/')
+#snapshot_version=$(echo $mvn_version | perl -pe 'if (!m/SNAPSHOT/) { s/$/-SNAPSHOT/; }')
+
+if [ -z ${release} ]; then
+   #if ${release} is an empty string then this is a release
+   mvn_version=${version}
+   snapshot_version=${mvn_version}-SNAPSHOT
+else
+   #if ${release} is non-empty then this is snapshot
+   mvn_version=${version}-${release}-SNAPSHOT
+   snapshot_version=${mvn_version}
+fi
 
 # always publish a snapshot, even if this is a release so dev stays in sync
 
@@ -42,7 +51,7 @@ if [ "$mvn_version" != "$snapshot_version" ];  then
   -DrepositoryId=ntree-releases \
   -Durl=http://mgr200.ntree.com:8081/content/repositories/releases \
   -DgroupId=com.ntree \
-  -DartifactId=salestree-mainenance \
+  -DartifactId=logstash \
   -Dpackaging=rpm \
   -Dfile="$rpm_file" \
   -Dversion="$release_version"

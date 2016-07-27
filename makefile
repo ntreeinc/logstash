@@ -21,7 +21,7 @@ test:
 clean:
 	rm -rf "$(RPM_BASE)"
 
-rpmdirs: clean
+rpmdirs:
 	mkdir -p "${RPM_BASE}/SOURCES" "${RPM_BASE}/BUILD" "${RPM_BASE}/BUILDROOT" "${RPM_BASE}/RPMS/noarch" "${RPM_BASE}/SPECS"
 
 $(processed_spec): rpmdirs $(raw_spec)

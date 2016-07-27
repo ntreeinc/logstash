@@ -5,7 +5,9 @@
 %define localsource %{_topdir}/../..
 
 Name:           logstash
+#This version number MUST match the logstash-${version}.tar.gz version number
 Version:        2.3.4
+#If you wish to publish a new snapshot to nexus you MUST up the release number
 #Release:        1%{?dist}
 Release:        1
 Summary:        Salestree Webserver Config
