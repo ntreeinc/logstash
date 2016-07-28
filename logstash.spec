@@ -9,7 +9,7 @@ Name:           logstash
 Version:        2.3.4
 #If you wish to publish a new snapshot to nexus you MUST up the release number
 #Release:        1%{?dist}
-Release:        4
+Release:        5
 Summary:        Install logstash as a service
 Group:          Applications/Communications
 License:        MIT
@@ -18,6 +18,7 @@ URL:            https://ntree.com
 Source0:	https://download.elastic.co/logstash/logstash/logstash-2.3.4.tar.gz
 Patch0:		logstash-patterns.patch
 AutoReqProv: no
+Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 
 #BuildRequires:  
 #Requires:       httpd
@@ -49,7 +50,9 @@ rm -rf $RPM_BUILD_ROOT
 src="%{localsource}"
 cd "${src}"
 make install DESTDIR="%{buildroot}"
-cd $RPM_BUILD_ROOT 
+cd $RPM_BUILD_ROOT
+#if logstash user exists do nothing, if not then add a logstash user (logstash group added automatically)
+/usr/bin/getent passwd logstash || /usr/sbin/useradd logstash 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
