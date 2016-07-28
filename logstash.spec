@@ -9,7 +9,7 @@ Name:           logstash
 Version:        2.3.4
 #If you wish to publish a new snapshot to nexus you MUST up the release number
 #Release:        1%{?dist}
-Release:        6
+Release:        7
 Summary:        Install logstash as a service
 Group:          Applications/Communications
 License:        MIT
@@ -18,13 +18,15 @@ URL:            https://ntree.com
 Source0:	https://download.elastic.co/logstash/logstash/logstash-2.3.4.tar.gz
 Patch0:		logstash-patterns.patch
 AutoReqProv: no
-Requires(pre): /usr/sbin/useradd, /usr/bin/getent
+Requires(pre): /usr/sbin/useradd, /usr/sbin/groupadd, /usr/bin/getent
 
 #BuildRequires:  
 #Requires:       httpd
 
 %pre
-/usr/bin/getent passwd logstash || /usr/sbin/useradd logstash
+#/usr/bin/getent passwd logstash || /usr/sbin/useradd logstash
+/usr/bin/getent group logstash || /usr/sbin/groupadd -r logstash
+/usr/bin/getent passwd logstash || /usr/sbin/useradd -r -d /opt/logstash -s /sbin/nologin logstash
 
 %description
 Used for installing logstash as a service on older systems which do not work with the given installation options
