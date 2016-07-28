@@ -9,7 +9,7 @@ Name:           logstash
 Version:        2.3.4
 #If you wish to publish a new snapshot to nexus you MUST up the release number
 #Release:        1%{?dist}
-Release:        5
+Release:        6
 Summary:        Install logstash as a service
 Group:          Applications/Communications
 License:        MIT
@@ -22,6 +22,9 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 
 #BuildRequires:  
 #Requires:       httpd
+
+%pre
+/usr/bin/getent passwd logstash || /usr/sbin/useradd logstash
 
 %description
 Used for installing logstash as a service on older systems which do not work with the given installation options
@@ -52,7 +55,6 @@ cd "${src}"
 make install DESTDIR="%{buildroot}"
 cd $RPM_BUILD_ROOT
 #if logstash user exists do nothing, if not then add a logstash user (logstash group added automatically)
-/usr/bin/getent passwd logstash || /usr/sbin/useradd logstash 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
