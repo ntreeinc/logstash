@@ -48,7 +48,7 @@ mvn -e -X deploy:deploy-file \
   -Dversion="$snapshot_version"
 
 
-if [ "$mvn_version" != "$snapshot_version" ];  then
+if [ "${is_release}" ];  then
   echo ""
   echo "Publishing the release..." 
   release_version="$mvn_version"
