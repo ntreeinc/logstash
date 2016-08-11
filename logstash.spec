@@ -26,7 +26,7 @@ Requires(pre): /usr/sbin/useradd, /usr/sbin/groupadd, /usr/bin/getent
 %pre
 #/usr/bin/getent passwd logstash || /usr/sbin/useradd logstash
 /usr/bin/getent group logstash || /usr/sbin/groupadd -r logstash
-/usr/bin/getent passwd logstash || /usr/sbin/useradd -r -d /opt/logstash -s /sbin/nologin logstash
+/usr/bin/getent passwd logstash || /usr/sbin/useradd -r -d /opt/logstash -s /sbin/nologin -g logstash logstash
 
 %description
 Used for installing logstash as a service on older systems which do not work with the given installation options
