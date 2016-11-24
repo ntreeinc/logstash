@@ -9,7 +9,7 @@ Name:           logstash
 Version:        2.3.4
 #If you wish to publish a new snapshot to nexus you MUST up the release number
 #Release:        1%{?dist}
-Release:        7
+Release:        8
 Summary:        Install logstash as a service
 Group:          Applications/Communications
 License:        MIT
